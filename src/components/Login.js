@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, useController } from "react-hook-form";
 
 import { bg_layout, inputUI } from "./UI/styles";
 import Button from "./UI/Button";
+import Input from "./UI/Input";
 
 export default function Login() {
   const user = JSON?.parse(localStorage.getItem("USER_SESSION"));
@@ -21,6 +22,7 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
@@ -54,35 +56,21 @@ export default function Login() {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <input type="hidden" name="remember" value="true" />
+          <Input
+            control={control}
+            name="email"
+            rules={{ required: true }}
+            type="email"
+            placeholder={"Email address"}
+          />
 
-          <div>
-            <label htmlFor="email-address" className="sr-only">
-              Email address
-            </label>
-            <input
-              id="email-address"
-              type="email"
-              {...register("email")}
-              required
-              className={inputUI}
-              placeholder="Email address"
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="sr-only">
-              Password
-            </label>
-            <input
-              {...register("password")}
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              className={inputUI}
-              placeholder="Password"
-            />
-          </div>
+          <Input
+            control={control}
+            rules={{ required: true }}
+            name="password"
+            type="password"
+            placeholder={"Password"}
+          />
 
           <div className="flex items-center justify-center">
             <div className="text-sm">
