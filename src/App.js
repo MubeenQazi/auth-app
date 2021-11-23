@@ -1,6 +1,6 @@
-import Login from './components/Login'
-import SignUp from './components/SignUp';
-import Home from './components/Home';
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import Home from "./components/Home";
 
 import React from "react";
 import {
@@ -8,22 +8,23 @@ import {
   Routes,
   Route,
   Navigate,
-  Outlet
+  Outlet,
 } from "react-router-dom";
 
-
-const PrivateRoute = () => {
+function ProtectedRoute() {
   const auth = JSON.parse(localStorage.getItem("USER_SESSION"));
-  return auth && auth.token ? <Outlet /> : <Navigate to="/login" />;
+  return auth ? <Outlet /> : <Navigate to="/login" />;
 }
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path='/' element={<PrivateRoute />}>
-          <Route exact path='/' element={<Home />} />
+        {/* This is the protected pipline */}
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route exact path="/" element={<Home />} />
         </Route>
+
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
       </Routes>
